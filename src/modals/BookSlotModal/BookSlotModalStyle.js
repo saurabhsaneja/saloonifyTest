@@ -1,5 +1,6 @@
 import {Colors} from 'global/Index';
 import {StyleSheet} from 'react-native';
+import {color} from 'react-native-reanimated';
 
 export const styles = StyleSheet.create({
   container: {
@@ -21,6 +22,13 @@ export const styles = StyleSheet.create({
   },
   btn: {
     backgroundColor: Colors.DARY_GREY,
+    padding: 10,
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  slotBooked: {
+    backgroundColor: Colors.THEME_VIOLET,
     padding: 10,
     borderRadius: 5,
     justifyContent: 'center',

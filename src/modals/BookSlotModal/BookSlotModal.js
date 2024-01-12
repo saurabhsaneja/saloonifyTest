@@ -20,6 +20,8 @@ const BookSlotModal = ({
   setName,
   emailAddress,
   setEmailAddress,
+  isSlotBooked,
+  setIsSlotBooked,
 }) => {
   //variables
   //variables : redux variables
@@ -37,44 +39,74 @@ const BookSlotModal = ({
     <Modal
       visible={visible}
       onRequestClose={closeModal}
+      onShow={() => {
+        setIsSlotBooked(false);
+        setName('');
+        setEmailAddress('');
+      }}
+      // onHide={() => {
+      //   setIsSlotBooked(false);
+      //   setName('');
+      //   setEmailAddress('');
+      // }}
       animationType="fade"
       transparent>
       <View style={styles.container}>
         <TouchableOpacity style={styles.blurView} onPress={closeModal} />
         <View style={styles.mainView}>
-          <MyTextInput
-            inputRef={nameRef}
-            Title="Name"
-            value={name}
-            placeholder="Enter Name"
-            onChangeText={text => setName(text)}
-            onSubmitEditing={() => emailAddressRef.current.focus()}
-          />
-          <MyTextInput
-            inputRef={emailAddressRef}
-            Title="Email Address"
-            value={emailAddress}
-            placeholder="Enter Email Address"
-            keyboardType="email-address"
-            onChangeText={text => setEmailAddress(text)}
-            onSubmitEditing={() => phoneNumberRef.current.focus()}
-          />
-          <View style={[styles.timeRow, {marginBottom: 10}]}>
-            <MyText
-              text="Selected Slot"
-              fontSize={16}
-              fontFamily="bold"
-              textColor={Colors.BLACK}
-            />
-            <MyText
-              text={selectedSlot?.slotTime}
-              fontSize={16}
-              fontFamily="bold"
-              textColor={Colors.BLACK}
-              style={{marginLeft: 10}}
-            />
-          </View>
-          <MyButton title="Submit" onPress={bookSlot} style={{width: '100%'}} />
+          {!isSlotBooked ? (
+            <>
+              <MyTextInput
+                inputRef={nameRef}
+                Title="Name"
+                value={name}
+                setValue={setName}
+                placeholder="Enter Name"
+                // onChangeText={text => setName(text)}
+                onSubmitEditing={() => emailAddressRef.current.focus()}
+              />
+              <MyTextInput
+                inputRef={emailAddressRef}
+                Title="Email Address"
+                value={emailAddress}
+                setValue={setEmailAddress}
+                placeholder="Enter Email Address"
+                keyboardType="email-address"
+                // onChangeText={text => setEmailAddress(text)}
+                onSubmitEditing={() => phoneNumberRef.current.focus()}
+              />
+              <View style={[styles.timeRow, {marginBottom: 10}]}>
+                <MyText
+                  text="Selected Slot"
+                  fontSize={16}
+                  fontFamily="bold"
+                  textColor={Colors.BLACK}
+                />
+                <MyText
+                  text={selectedSlot?.slotTime}
+                  fontSize={16}
+                  fontFamily="bold"
+                  textColor={Colors.BLACK}
+                  style={{marginLeft: 10}}
+                />
+              </View>
+              <MyButton
+                title="Submit"
+                onPress={() => bookSlot(selectedSlot?.id)}
+                style={{width: '100%'}}
+              />
+            </>
+          ) : (
+            <View style={styles.slotBooked}>
+              <MyText
+                text={'Slot booked successfuly'}
+                fontSize={16}
+                fontFamily="bold"
+                textColor={Colors.BLACK}
+                style={{marginLeft: 10}}
+              />
+            </View>
+          )}
         </View>
       </View>
     </Modal>

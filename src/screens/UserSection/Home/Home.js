@@ -28,6 +28,7 @@ const Home = ({navigation}) => {
   const [selectedSlot, setSelectedSlot] = useState({});
   const [name, setName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
+  const [isSlotBooked, setIsSlotBooked] = useState(false);
 
   useEffect(() => {
     // console.log('slots', slots);
@@ -55,6 +56,7 @@ const Home = ({navigation}) => {
       }
     });
     setSlots([...updatedSlots]);
+    setIsSlotBooked(true)
   };
   const renderSlot = ({item}) => {
     return (
@@ -155,6 +157,8 @@ const Home = ({navigation}) => {
         setName={setName}
         emailAddress={emailAddress}
         setEmailAddress={setEmailAddress}
+        isSlotBooked={isSlotBooked}
+        setIsSlotBooked={setIsSlotBooked}
       />
     </View>
   );
@@ -164,7 +168,7 @@ export default Home;
 const getSlots = () => {
   return [...Array(24).keys()].map((el, index) => ({
     id: el?.toString(),
-    slotTime: `${el} - ${el + 1} hrs`,
+    slotTime: `${el}:00 - ${el + 1}:00 hrs`,
     available: true,
     date: getCustomDate(index % 3),
   }));

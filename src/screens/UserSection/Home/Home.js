@@ -14,25 +14,38 @@ import {CommonActions} from '@react-navigation/native';
 //custom components
 import MyHeader from 'components/MyHeader/MyHeader';
 import MyText from 'components/MyText/MyText';
-
+import BookSlotModal from 'modals/BookSlotModal/BookSlotModal';
 //global
 import {Colors, Constant, Images, ScreenNames, Service} from 'global/Index';
 //styles
 import {styles} from './HomeStyle';
-// import SubmitPrediction from '../../../modals/SubmitPrediction/SubmitPrediction';
-// import ValuePicker from 'rn-value-picker';
-
+import Toast from 'react-native-simple-toast';
 const Home = ({navigation}) => {
   //variables
   //states
   const [showModal, setShowModal] = useState(false);
   const [slots, setSlots] = useState(getSlots());
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedSlot, setSelectedSlot] = useState({});
+  const [name, setName] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
 
   useEffect(() => {
-    console.log('slots', slots);
+    // console.log('slots', slots);
   }, []);
+  const validation = () => {
+    if (name === '') {
+      Toast.show('Please enter Name', Toast.LONG);
+      return false;
+    } else if (emailAddress === '') {
+      Toast.show('Please enter Email Address', Toast.LONG);
+      return false;
+    }
+    return true;
+  };
   const bookSlot = id => {
+    if (!validation()) {
+      return;
+    }
     const slotsCopy = [...slots];
     const updatedSlots = slotsCopy.map(el => {
       if (el?.id === id) {
@@ -44,7 +57,6 @@ const Home = ({navigation}) => {
     setSlots([...updatedSlots]);
   };
   const renderSlot = ({item}) => {
-    console.log('item?.slotTime', item?.slotTime);
     return (
       <View
         style={[
@@ -86,7 +98,7 @@ const Home = ({navigation}) => {
             title="Book Slot"
             onPress={() => {
               // bookSlot(item?.id);
-              setSelectedId(item?.id);
+              setSelectedSlot(item);
               setShowModal(true);
             }}
           />
@@ -134,22 +146,16 @@ const Home = ({navigation}) => {
           ) : null}
         </View>
       </ScrollView>
-      {/* <SubmitPrediction
+      <BookSlotModal
         visible={showModal}
         setVisibility={setShowModal}
-        numberChosen={numberChosen}
-        setNumberChosen={setNumberChosen}
-        setShowPicker={setShowPicker}
-      /> */}
-      {/* <ValuePicker
-        visible={showPicker}
-        setVisibility={setShowPicker}
-        Title="Your Weight"
-        unit=""
-        minValue={20}
-        maxValue={150}
-        setValue={setNumberChosen}
-      /> */}
+        selectedSlot={selectedSlot}
+        bookSlot={bookSlot}
+        name={name}
+        setName={setName}
+        emailAddress={emailAddress}
+        setEmailAddress={setEmailAddress}
+      />
     </View>
   );
 };
@@ -158,7 +164,7 @@ export default Home;
 const getSlots = () => {
   return [...Array(24).keys()].map((el, index) => ({
     id: el?.toString(),
-    slotTime: `${el} - ${el + 1}`,
+    slotTime: `${el} - ${el + 1} hrs`,
     available: true,
     date: getCustomDate(index % 3),
   }));

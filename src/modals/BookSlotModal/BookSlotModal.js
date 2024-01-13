@@ -1,6 +1,6 @@
 //import : react components
 import React, {useRef, useState} from 'react';
-import {View, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, Keyboard} from 'react-native';
 //import : custom components
 import MyText from 'components/MyText/MyText';
 //import : third parties
@@ -78,7 +78,7 @@ const BookSlotModal = ({
               placeholder="Enter Email Address"
               keyboardType="email-address"
               // onChangeText={text => setEmailAddress(text)}
-              onSubmitEditing={() => phoneNumberRef.current.focus()}
+              onSubmitEditing={() => Keyboard.dismiss()}
             />
             <View style={[styles.timeRow, {marginBottom: 10}]}>
               <MyText

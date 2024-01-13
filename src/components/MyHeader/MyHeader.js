@@ -50,13 +50,8 @@ const MyHeader = ({Title}) => {
               borderRadius: 100,
               zIndex: 10,
             }}>
-            <MyText text={1} fontSize={11} textColor="white" />
+            {/* <MyText text={1} fontSize={11} textColor="white" /> */}
           </View>
-          {/* <Image
-            resizeMode="contain"
-            source={require('assets/images/message-icon.png')}
-            style={{zIndex: 1}}
-          /> */}
         </TouchableOpacity>
       </View>
     </View>
